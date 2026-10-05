@@ -1,0 +1,799 @@
+if V.Name==T then
+V.Object.Visible=false
+end
+end
+end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+return aw
+end end end
+
+local aa={
+Window=nil,
+Theme=nil,
+Creator=a.load'd',
+LocalizationModule=a.load'e',
+NotificationModule=a.load'f',
+Themes=nil,
+Transparent=false,
+
+TransparencyValue=0.15,
+
+UIScale=1,
+
+ConfigManager=nil,
+Version="0.0.0",
+
+Services=a.load'k',
+
+OnThemeChangeFunction=nil,
+
+cloneref=nil,
+UIScaleObj=nil,
+
+CreateWindow=nil,
+
+CurrentInput=nil,
+}
+
+local af=(cloneref or clonereference or function(af)
+return af
+end)
+
+aa.cloneref=af
+
+local ai=af(game:GetService"HttpService")
+local ak=af(game:GetService"Players")
+local al=af(game:GetService"CoreGui")
+local am=af(game:GetService"RunService")
+local an=af(game:GetService"UserInputService")
+
+function aa.GenerateGUID()
+return ai:GenerateGUID(false)
+end
+
+local ao=aa.GenerateGUID()
+
+an.InputBegan:Connect(function(ap,aq)
+
+
+
+
+task.defer(function()
+if
+ap.UserInputType==Enum.UserInputType.MouseButton1
+or ap.UserInputType==Enum.UserInputType.Touch
+then
+if aa.CurrentInput and aa.CurrentInput~=ao then
+return
+end
+
+aa.CurrentInput=ao
+
+
+end
+end)
+end)
+an.InputEnded:Connect(function(ap,aq)
+if ap.UserInputType==Enum.UserInputType.MouseButton1 or ap.UserInputType==Enum.UserInputType.Touch then
+if aa.CurrentInput and aa.CurrentInput~=ao then
+return
+end
+
+aa.CurrentInput=nil
+end
+end)
+
+local ap=ak.LocalPlayer or nil
+
+local aq=ai:JSONDecode(a.load'l')
+if aq then
+aa.Version=aq.version
+end
+
+local ar=a.load'p'
+
+local as=aa.Creator
+
+local at=as.New
+
+
+
+
+local au=a.load't'
+
+local av=protectgui or(syn and syn.protect_gui)or function()end
+
+local aw=gethui and gethui()or(al or ap:WaitForChild"PlayerGui")
+
+local ax=at("UIScale",{
+Scale=aa.UIScale,
+})
+
+aa.UIScaleObj=ax
+
+aa.ScreenGui=at("ScreenGui",{
+Name="WindUI",
+Parent=aw,
+IgnoreGuiInset=true,
+ScreenInsets="None",
+DisplayOrder=-99999,
+},{
+
+at("Folder",{
+Name="Window",
+}),
+
+
+
+
+
+
+at("Folder",{
+Name="KeySystem",
+}),
+at("Folder",{
+Name="Popups",
+}),
+at("Folder",{
+Name="ToolTips",
+}),
+})
+
+aa.NotificationGui=at("ScreenGui",{
+Name="WindUI/Notifications",
+Parent=aw,
+IgnoreGuiInset=true,
+})
+aa.DropdownGui=at("ScreenGui",{
+Name="WindUI/Dropdowns",
+Parent=aw,
+IgnoreGuiInset=true,
+})
+aa.TooltipGui=at("ScreenGui",{
+Name="WindUI/Tooltips",
+Parent=aw,
+IgnoreGuiInset=true,
+})
+av(aa.ScreenGui)
+av(aa.NotificationGui)
+av(aa.DropdownGui)
+av(aa.TooltipGui)
+
+as.Init(aa)
+
+function aa.SetParent(ay,az)
+if aa.ScreenGui then
+aa.ScreenGui.Parent=az
+end
+if aa.NotificationGui then
+aa.NotificationGui.Parent=az
+end
+if aa.DropdownGui then
+aa.DropdownGui.Parent=az
+end
+if aa.TooltipGui then
+aa.TooltipGui.Parent=az
+end
+end
+math.clamp(aa.TransparencyValue,0,1)
+
+local ay=aa.NotificationModule.Init(aa.NotificationGui)
+
+function aa.Notify(az,aA)
+aA.Holder=ay.Frame
+aA.Window=aa.Window
+
+return aa.NotificationModule.New(aA)
+end
+
+function aa.SetNotificationLower(az,aA)
+ay.SetLower(aA)
+end
+
+function aa.SetFont(az,aA)
+as.UpdateFont(aA)
+end
+
+function aa.OnThemeChange(az,aA)
+aa.OnThemeChangeFunction=aA
+end
+
+function aa.AddTheme(az,aA)
+aa.Themes[aA.Name]=aA
+return aA
+end
+
+function aa.SetTheme(az,aA)
+if aa.Themes[aA]then
+aa.Theme=aa.Themes[aA]
+as.SetTheme(aa.Themes[aA])
+
+if aa.OnThemeChangeFunction then
+aa.OnThemeChangeFunction(aA)
+end
+
+return aa.Themes[aA]
+end
+return nil
+end
+
+function aa.GetThemes(az)
+return aa.Themes
+end
+function aa.GetCurrentTheme(az)
+return aa.Theme.Name
+end
+function aa.GetTransparency(az)
+return aa.Transparent or false
+end
+function aa.GetWindowSize(az)
+return aa.Window.UIElements.Main.Size
+end
+function aa.Localization(az,aA)
+return aa.LocalizationModule:New(aA,as)
+end
+
+function aa.SetLanguage(az,aA)
+if as.Localization then
+return as.SetLanguage(aA)
+end
+return false
+end
+
+function aa.ToggleAcrylic(az,aA)
+if aa.Window and aa.Window.AcrylicPaint and aa.Window.AcrylicPaint.Model then
+aa.Window.Acrylic=aA
+aa.Window.AcrylicPaint.Model.Transparency=aA and 0.98 or 1
+if aA then
+au.Enable()
+else
+au.Disable()
+end
+end
+end
+
+function aa.Gradient(az,aA,aB)
+local b={}
+local d={}
+
+for f,g in next,aA do
+local h=tonumber(f)
+if h then
+h=math.clamp(h/100,0,1)
+
+local i=g.Color
+if typeof(i)=="string"and string.sub(i,1,1)=="#"then
+i=Color3.fromHex(i)
+end
+
+local l=g.Transparency or 0
+
+table.insert(b,ColorSequenceKeypoint.new(h,i))
+table.insert(d,NumberSequenceKeypoint.new(h,l))
+end
+end
+
+table.sort(b,function(f,g)
+return f.Time<g.Time
+end)
+table.sort(d,function(f,g)
+return f.Time<g.Time
+end)
+
+if#b<2 then
+table.insert(b,ColorSequenceKeypoint.new(1,b[1].Value))
+table.insert(d,NumberSequenceKeypoint.new(1,d[1].Value))
+end
+
+local f={
+Color=ColorSequence.new(b),
+Transparency=NumberSequence.new(d),
+}
+
+if aB then
+for g,h in pairs(aB)do
+f[g]=h
+end
+end
+
+return f
+end
+
+function aa.Popup(az,aA)
+aA.WindUI=aa
+return a.load'u'.new(aA,aa.ScreenGui.Popups)
+end
+
+aa.Themes=a.load'v'(aa,as)
+
+as.Themes=aa.Themes
+
+aa:SetTheme"Dark"
+aa:SetLanguage(as.Language)
+
+function aa.CreateWindow(az,aA)
+local aB=a.load'ae'
+
+if not am:IsStudio()and writefile then
+if not isfolder"WindUI"then
+makefolder"WindUI"
+end
+if aA.Folder then
+makefolder(aA.Folder)
+else
+makefolder(aA.Title)
+end
+end
+
+aA.WindUI=aa
+aA.Window=aa.Window
+aA.Parent=aa.ScreenGui.Window
+
+if aa.Window then
+warn"You cannot create more than one window"
+return
+end
+
+local b=true
+
+local d=aa.Themes[aA.Theme or"Dark"]
+
+
+as.SetTheme(d)
+
+local f=gethwid or function()
+return ak.LocalPlayer.UserId
+end
+
+local g=f()
+
+if aA.KeySystem then
+b=false
+
+local function loadKeysystem()
+ar.new(aA,g,function(h)
+b=h
+end)
+end
+
+local h=(aA.Folder or"Temp").."/"..g..".key"
+
+if aA.KeySystem.KeyValidator then
+if aA.KeySystem.SaveKey and isfile(h)then
+local i=readfile(h)
+local l=aA.KeySystem.KeyValidator(i)
+
+if l then
+b=true
+else
+loadKeysystem()
+end
+else
+loadKeysystem()
+end
+elseif not aA.KeySystem.API then
+if aA.KeySystem.SaveKey and isfile(h)then
+local i=readfile(h)
+local l=(type(aA.KeySystem.Key)=="table")and table.find(aA.KeySystem.Key,i)
+or tostring(aA.KeySystem.Key)==tostring(i)
+
+if l then
+b=true
+else
+loadKeysystem()
+end
+else
+loadKeysystem()
+end
+else
+if isfile(h)then
+local i=readfile(h)
+local l=false
+
+for m,p in next,aA.KeySystem.API do
+local r=aa.Services[p.Type]
+if r then
+local u={}
+for v,x in next,r.Args do
+table.insert(u,p[x])
+end
+
+local v=r.New(table.unpack(u))
+local x=v.Verify(i)
+if x then
+l=true
+break
+end
+end
+end
+
+b=l
+if not l then
+loadKeysystem()
+end
+else
+loadKeysystem()
+end
+end
+
+repeat
+task.wait()
+until b
+end
+
+local h=aB(aA)
+
+aa.Transparent=aA.Transparent
+aa.Window=h
+
+if aA.Acrylic then
+au.init()
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+return h
+end
+
+return aa
+end)()
+
+local window = WindUI:CreateWindow({
+	Title = "Anime Dice Autofarm",
+	Author = "Anime Dice",
+	Folder = "AnimeDiceAutofarm",
+	Theme = "Dark",
+	NewElements = true,
+	HideSearchBar = false,
+	AutoScale = true,
+	Size = UDim2.fromOffset(650, 520),
+	MinSize = Vector2.new(560, 420),
+	MaxSize = Vector2.new(900, 700),
+})
+
+-- remotes --------------------------------------------------------------------
+local Net = RS:WaitForChild("Network", 20)
+if not Net then
+	warn("[ADF] no Network folder - wrong game?")
+	return
+end
+
+local function rem(service, class, name)
+	local svc = Net:FindFirstChild(service)
+	local cls = svc and svc:FindFirstChild(class)
+	local r = cls and cls:FindFirstChild(name)
+	if not r then
+		warn("[ADF] missing remote: " .. service .. "." .. class .. "." .. name)
+	end
+	return r
+end
+
+local R = {
+	Roll           = rem("RollService", "RF", "RollDice"),
+	SetAutoRoll    = rem("RollService", "RE", "SetAutoRoll"),
+	SellInventory  = rem("SellService", "RF", "SellInventory"),
+	SellEquipped   = rem("SellService", "RF", "SellEquipped"),
+	UpdateAutoSell = rem("SellService", "RE", "UpdateAutoSell"),
+	CollectBalance = rem("PlotService", "RE", "CollectBalance"),
+	EquipBest      = rem("PlotService", "RE", "EquipBest"),
+	LevelUpSlot    = rem("PlotService", "RE", "LevelUpSlot"),
+	Rebirth        = rem("RebirthService", "RE", "Rebirth"),
+	BuyDice        = rem("DiceShopService", "RE", "BuyDice"),
+	EquipDice      = rem("DiceShopService", "RE", "EquipDice"),
+	QuestClaim     = rem("QuestService", "RE", "Claim"),
+	QuestBuy       = rem("QuestService", "RE", "Buy"),
+	DailyClaim     = rem("DailyRewardService", "RE", "Claim"),
+	GroupClaim     = rem("GroupRewardService", "RE", "Claim"),
+	OfflineClaim   = rem("OfflineEarningsService", "RE", "Claim"),
+	GradeRoll      = rem("GradeService", "RE", "Roll"),
+	TraitRoll      = rem("TraitService", "RE", "Roll"),
+	BoostUse       = rem("BoostService", "RE", "Use"),
+	SpinUse        = rem("SpinService", "RE", "Use"),
+	Fuse           = rem("FusingService", "RE", "Fuse"),
+	Redeem         = rem("CodesService", "RE", "RedeemCode"),
+	TowerPlay      = rem("Towers", "RF", "PlayTower"),
+	TowerFloor     = rem("Towers", "RF", "CompleteTowerFloor"),
+	TowerCancel    = rem("Towers", "RF", "CancelTower"),
+	TowerEquipBest = rem("Towers", "RE", "EquipBestTowerTeam"),
+}
+local topRE = Net:FindFirstChild("RE")
+R.BuyUpgrade = topRE and topRE:FindFirstChild("BuyUpgrade")
+
+-- game config + live state modules (all replicated to the client) ------------
+local function mod(path)
+	local node = RS
+	for seg in string.gmatch(path, "[^%.]+") do
+		node = node and node:FindFirstChild(seg)
+	end
+	if not node then
+		warn("[ADF] missing module " .. path)
+		return nil
+	end
+	local ok, m = pcall(require, node)
+	if not ok then
+		warn("[ADF] require failed " .. path .. ": " .. tostring(m))
+		return nil
+	end
+	return m
+end
+
+local ER       = mod("Framework.Features.Inventory.EntryRegistry")
+local Rar      = mod("Framework.Other.Rarities")
+local DiceCfg  = mod("Framework.Features.Rolling.Dice")
+local Grades   = mod("Framework.Features.Grades.Grades")
+local Traits   = mod("Framework.Features.Traits.Traits")
+local Rebirths = mod("Framework.Features.Rebirth.Rebirths")
+local Upgrades = mod("Framework.Features.Upgrades.Upgrades")
+local Tree     = mod("Framework.Features.Upgrades.TreeStructure")
+local QuestCfg = mod("Framework.Features.Quests.QuestConfig")
+local CodesCfg = mod("Framework.Features.Codes.CodesConfig")
+local D        = mod("Framework.Features.Data.DataController")
+local BuffC    = mod("Framework.Features.Buffs.BuffController")
+local TowersCfg = mod("Framework.Features.Towers.Towers")
+local TowerRefs = mod("Framework.Features.Towers.TowerRefs")
+
+if not (ER and D) then
+	warn("[ADF] core modules unavailable, aborting")
+	return
+end
+
+-- helpers --------------------------------------------------------------------
+local State = {
+	running = true, nextRollAt = 0,
+	towerActive = false, towerStalls = 0, towerCooldown = 0,
+}
+local Stats = {
+	rolls = 0, soldUnits = 0, soldMoney = 0, earned = 0,
+	money = 0, moneyPerMin = 0, rollsPerMin = 0,
+	rares = {}, log = {},
+}
+
+local function pv(fn, ...)
+	local ok, v = pcall(fn, ...)
+	if ok then return v end
+	return nil
+end
+
+local function log(msg)
+	table.insert(Stats.log, 1, os.date("[%H:%M:%S] ") .. msg)
+	while #Stats.log > 14 do
+		table.remove(Stats.log)
+	end
+end
+
+local function money()
+	local v = pv(function() return D.Money() end)
+	return typeof(v) == "number" and v or 0
+end
+
+local function inventory()
+	local v = pv(function() return D.Inventory() end)
+	return typeof(v) == "table" and v or {}
+end
+
+local function slots()
+	local v = pv(function() return D.Slots() end)
+	return typeof(v) == "table" and v or {}
+end
+
+local function amountOf(name)
+	local total = 0
+	for _, e in pairs(inventory()) do
+		if e.name == name then total = total + (tonumber(e.amount) or 0) end
+	end
+	return total
+end
+
+local function buff(name)
+	if not BuffC then return nil end
+	return tonumber(pv(BuffC.GetBuff, name))
+end
+
+local function inventoryCap()
+	return buff("Unit Storage") or 100
+end
+
+local function fmt(n)
+	n = tonumber(n) or 0
+	if n >= 1e15 then return string.format("%.2fQa", n / 1e15) end
+	if n >= 1e12 then return string.format("%.2fT", n / 1e12) end
+	if n >= 1e9 then return string.format("%.2fB", n / 1e9) end
+	if n >= 1e6 then return string.format("%.2fM", n / 1e6) end
+	if n >= 1e3 then return string.format("%.1fK", n / 1e3) end
+	return string.format("%d", math.floor(n))
+end
+
+local function unitEntries()
+	local out = {}
+	for key, e in pairs(inventory()) do
+		local cfg = ER.getEntryConfig(e.name)
+		if cfg and cfg.kind == "Unit" then
+			local attrs = e.attributes or {}
+			table.insert(out, {
+				key = key, name = e.name, attrs = attrs, cfg = cfg,
+				income = tonumber(pv(cfg.income, attrs)) or 0,
+				chance = tonumber(pv(cfg.chance, attrs)) or 0,
+				amount = tonumber(e.amount) or 1,
+			})
+		end
+	end
+	return out
+end
+
+local function plottedKeys()
+	local set = {}
+	for _, s in pairs(slots()) do
+		if typeof(s) == "table" and s.unitId then set[s.unitId] = true end
+	end
+	return set
+end
+
+local A = {} -- action implementations (defined below; referenced by UI callbacks)
+
+-- UI -------------------------------------------------------------------------
+-- WindUI adapter: keeps the original Anime Dice control contract (Get/Set)
+-- while using WindUI v1.6.x elements underneath.
+-- Create the config before controls so WindUI registers Flag values into it.
+local config = nil
+if window.ConfigManager then
+	config = window.ConfigManager:Config("anime-dice-autofarm")
+end
+
+local function notify(spec)
+	spec = spec or {}
+	return WindUI:Notify({
+		Title = spec.Title or "Anime Dice Autofarm",
+		Content = spec.Content or "",
+		Duration = spec.Duration or 4,
+	})
+end
+
+local C = {}          -- live control handles
+local allToggles = {} -- for STOP ALL
+
+local function attachGet(c)
+	if c and not c.Get then
+		function c:Get()
+			if typeof(self.Value) == "table" and self.Value.Default ~= nil then
+				return self.Value.Default
+			end
+			return self.Value
+		end
+	end
+	return c
+end
+
+local function toggle_(section, spec)
+	spec = table.clone(spec)
+	spec.Title = spec.Text or spec.Title
+	spec.Value = spec.Default
+	spec.Flag = spec.Id
+	spec.Text = nil
+	local c = section:Toggle(spec)
+	attachGet(c)
+	C[spec.Id] = c
+	table.insert(allToggles, c)
+	return c
+end
+
+local function ctl(section, kind, spec)
+	spec = table.clone(spec)
+	spec.Title = spec.Text or spec.Title
+	spec.Flag = spec.Id
+	spec.Text = nil
+
+	if kind == "Slider" then
+		spec.Value = {
+			Min = spec.Min,
+			Max = spec.Max,
+			Default = spec.Default,
+		}
+		spec.Min, spec.Max, spec.Default = nil, nil, nil
+		-- WindUI's slider uses a callback value just like the original control.
+	elseif kind == "Input" then
+		spec.Value = tostring(spec.Default or "")
+		if spec.Numeric then
+			spec.Type = "Input"
+		end
+		spec.Numeric, spec.Min, spec.Default = nil, nil, nil
+	elseif kind == "Dropdown" then
+		local values = {}
+		local originalOptions = spec.__originalOptions or spec.Options or {}
+		local defaultDisplay = spec.Default
+		for _, v in ipairs(spec.Options or {}) do
+			local label = typeof(v) == "table" and (v.Label or v.Value) or v
+			table.insert(values, label)
+			if typeof(v) == "table" and v.Value == spec.Default then
+				defaultDisplay = label
+			end
+		end
+		spec.Values = values
+		spec.Value = defaultDisplay
+		spec.Options, spec.Default, spec.Placeholder = nil, nil, nil
+		spec.__originalOptions = originalOptions
+	elseif kind == "Toggle" then
+		spec.Value = spec.Default
+		spec.Default = nil
+	end
+
+	local c = section[kind](section, spec)
+	attachGet(c)
+
+	-- Dropdowns need a value mapping because the original script stores numeric
+	-- values while WindUI displays the selected entry. Keep the original value
+	-- available through Get/Set without changing the action code.
+	if kind == "Dropdown" then
+		local rawValues = spec.Values or {}
+		local original = {}
+		for _, v in ipairs(spec.__originalOptions or {}) do
+			original[v.Label or v.Value] = v.Value
+		end
+		local oldGet = c.Get
+		function c:Get()
+			local v = oldGet(self)
+			return original[v] ~= nil and original[v] or v
+		end
+	end
+
+	C[spec.Id] = c
+	return c
+end
+
+local function paragraph(section, id, title, desc)
+	local p = section:Paragraph({
+		Title = title,
+		Desc = desc or "",
+	})
+	p._id = id
+	return p
+end
+
+local stopAll = function()
+	for _, t in ipairs(allToggles) do
+		if t:Get() then t:Set(false) end
+	end
+	log("STOP ALL - every module disabled")
+end
+
+-- WindUI config controls ------------------------------------------------------
+local farmTab = window:Tab({
+	Title = "Farm",
+	Icon = "sprout",
+})
